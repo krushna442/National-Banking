@@ -2,6 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 const router = express.Router();
 import Contact from "../models/contactmodel.js";
+import multer from "multer";
+
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
 
 const Testimonial = mongoose.model("Testimonial", {
   name: String,
@@ -9,7 +13,8 @@ const Testimonial = mongoose.model("Testimonial", {
 });
 
 const Blog =mongoose.model ("Blog",{
-    blog:{type:String}
+    blog:{type:String},
+    image:{type:String},
    })
 
 // testimonial End point
@@ -28,7 +33,7 @@ router.post("/admin/testimonial", async (req, res) => {
 
 router.get("/admin/showtestimonial", async (req, res) => {
   try {
-    const testimonials = await Testimonial.find();
+    const testimonials = await Testimonial.find().sort({ _id: -1 });
 
     if (!testimonials || testimonials.length === 0) {
       return res.status(404).json({ error: "No testimonials found" });
@@ -76,12 +81,19 @@ router.delete("/admin/testimonial/:id", async (req, res) => {
 
 // vlog end point
 
-router.post("/vlog/add", async (req, res) => {
+const storage = multer.memoryStorage(); // Store in memory as a buffer
+const upload = multer({ storage: storage });
+
+
+router.post("/vlog/add", upload.single("image"), async (req, res) => {
   const { blog } = req.body;
+  const imageBase64 = req.file ? req.file.buffer.toString("base64") : null;
+
   try {
     await Blog.create(
         {
-            blog:blog
+            blog:blog,
+            image: imageBase64
         }
     );
     res.status(201).json({ message: "Blog created" });
@@ -90,13 +102,16 @@ router.post("/vlog/add", async (req, res) => {
         }
 });
 // vlog end point
-router.get('/vlog/show',(req,res)=>{
-    Blog.find().then((blog)=>{
-        res.json(blog)
-        }).catch((err)=>{
-            res.status(500).json({message:err.message})
-            })
-})
+router.get('/vlog/show', async (req, res) => {
+  try {
+    const blogs = await Blog.find().sort({ _id: -1 }); // Fetch blogs in reverse order (newest first)
+    
+    res.json(blogs);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.delete('/vlog/delete/:id',async(req,res)=>{
     try{
         const blog=await Blog.findByIdAndDelete(req.params.id)
