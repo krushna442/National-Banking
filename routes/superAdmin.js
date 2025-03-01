@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import Admin from "../models/Adminmodel";
+import Admin from "../models/Adminmodel.js";
 
 const router = express.Router();
 
