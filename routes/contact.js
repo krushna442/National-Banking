@@ -31,4 +31,22 @@ res.status(201).send("created")
     }
  })
 
+
+ router.delete('/admin/contact/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedEntry = await Contact.findByIdAndDelete(id);
+        
+        if (!deletedEntry) {
+            return res.status(404).json({ error: "Record not found" });
+        }
+        
+        res.json({ message: "Record deleted successfully", deletedEntry });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+ 
+
 export default router;
