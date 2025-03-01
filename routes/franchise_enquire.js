@@ -53,4 +53,22 @@ router .get("/admin/franchisedetails", async (req, res) => {
       }
       });
 
+
+
+      router.delete('/admin/franchisedetails/:id', async (req, res) => {
+        try {
+            const { id } = req.params;
+            const deletedEntry = await franchise_enquire.findByIdAndDelete(id);
+            
+            if (!deletedEntry) {
+                return res.status(404).json({ error: "Record not found" });
+            }
+            
+            res.json({ message: "Record deleted successfully", deletedEntry });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    });
+
 export default router;
