@@ -23,7 +23,7 @@ const router = express.Router();
         email:email,
         phone:phone,
         message:message
-    })
+    },{ timestamps: true })
 
 res.status(201).send("created")
 } catch (error) {

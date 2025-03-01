@@ -44,7 +44,7 @@ const admissionFormSchema =mongoose.Schema({
     modeOfTraining:String,
     modeOfPayment:String,
     promo:String,
-});
+},{ timestamps: true });
 const AdmissionForm = mongoose.model("AdmissionForm", admissionFormSchema);
 router.post("/admissionForm",async(req,res)=>{
     try {

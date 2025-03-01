@@ -13,7 +13,7 @@ const franchise_enquire_schema = new mongoose.Schema({
   job_title: { type: String, required: true },
   investment_range: { type: String, required: true },
   holding_franchise: { type: String, required: true },
-});
+},{ timestamps: true });
 const franchise_enquire = mongoose.model("franchise_enquire", franchise_enquire_schema);
 router.post("/franchise_enquire", async (req, res) => {
   const {
