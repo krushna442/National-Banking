@@ -7,6 +7,7 @@ import franchise_enquireRoute from './routes/franchise_enquire.js';
 import admissionRoute from './routes/admission.js';
 import galaryRoute from './routes/galary.js';
 import courseofferRoute from './routes/courseoffer.js';
+import superAdminRoute from './routes/superAdmin.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.use('/api',franchise_enquireRoute);
 app.use('/api',admissionRoute);
 app.use('/api',galaryRoute);
 app.use('/api',courseofferRoute);
+app.use('/api',superAdminRoute);
 
 // Start Server
 app.listen(PORT, () => {
