@@ -32,7 +32,7 @@ router .post('/courseoffer/add', upload.single('image'), async(req, res) => {
           res.json( offer );
         } catch (err) {
           res.status(500).json({ message: err.message });
-        }
+        } 
       });
     
       router.delete('/courseoffer/delete/:id', async (req, res) => {
