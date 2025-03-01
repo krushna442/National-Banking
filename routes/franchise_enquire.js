@@ -43,4 +43,14 @@ router.post("/franchise_enquire", async (req, res) => {
   }
 });
 
+router .get("/admin/franchisedetails", async (req, res) => {
+  try {
+     const franchise_enquires = await franchise_enquire.find().sort({ createdAt: -1 });
+     res.json(franchise_enquires);
+     } catch (error) {
+      console.error("Error fetching franchise enquires:", error);
+      res.status(500).json({ error: "Error fetching franchise enquires" });
+      }
+      });
+
 export default router;

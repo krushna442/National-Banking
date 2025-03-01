@@ -59,4 +59,14 @@ router.post("/admissionForm",async(req,res)=>{
     }
 })
 
+router.get('/admin/admissiondetail',async(req,res)=>{
+    try {
+        const admissionForm = await AdmissionForm.find().sort({_id: -1 });
+        res.json(admissionForm);
+        }
+        catch (err) {
+            console.log(err);
+        }
+})
+
 export default router;
