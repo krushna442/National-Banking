@@ -13,6 +13,7 @@ router.use(express.urlencoded({ extended: true }));
 router.post("/admin/register", upload.single("image"), async (req, res) => {
   const { Admin_id, name, email, password } = req.body;
   const imageBase64 = req.file ? req.file.buffer.toString("base64") : null;
+  try {
   const response = await Admin.create({
     Admin_id,
     name,
@@ -21,6 +22,9 @@ router.post("/admin/register", upload.single("image"), async (req, res) => {
     image: imageBase64,
   });
   res.status(200).json({ message: "admin added succesfully " });
+} catch (error) {
+    res.status(500).json({ message: "Error adding admin",error });
+    }
 });
 
 router.delete("/deleteadmin", async (req, res) => {
